@@ -72,14 +72,6 @@ public class Epfd extends ComponentDefinition {
 			logger.info("alive: "+alive.toString());
 			logger.info("suspected: "+ suspected.toString());
 			HashSet<Address> aliveAndSuspected = new HashSet<>(suspected);
-			/*
-			for (Address process : suspected){
-				if (alive.contains(process)) {
-					delay += deltaDelay;
-					logger.info("delay: "+ delay);
-				}
-			}
-			*/
 			aliveAndSuspected.retainAll(alive);
 			if (!aliveAndSuspected.isEmpty()) {
 				delay += deltaDelay;
@@ -109,7 +101,7 @@ public class Epfd extends ComponentDefinition {
 		@Override
 		public void handle(HeartbeatRequestMessage event) {
 			trigger(new Pp2pSend(event.getSource(),
-					new HeartbeatReplyMessage(selfAddress, seqnum)),
+					new HeartbeatReplyMessage(selfAddress, event.getSeqnum())),
 					pp2pPos);
 		}
 	};
